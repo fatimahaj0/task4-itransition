@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRouter = require("./routes/user.router.js");
 const cookieParser = require('cookie-parser');
-import path from 'path' ;
+const path = require('path');
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_URL)
@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGO_URL)
   .catch((err) => {
     console.log(err);
   });
-const __dirname = path.response();
+
 const app = express();
 app.use(cookieParser());
 
@@ -26,11 +26,15 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/', userRouter);
-app.use(express.static(path.join( __dirname , '/client/dist'))) ;
-app.get('*' , (req,res) => {
-res.sendFile(path.join( __dirname , 'client', 'dist', 'index.html')) ;
 
-})
-app.listen(3000, () => {
-  console.log('Server is running on port 3000!');
+const clientDistPath = path.resolve(__dirname, 'client', 'dist');
+app.use(express.static(clientDistPath));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(clientDistPath, 'index.html'));
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}!`);
 });
