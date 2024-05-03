@@ -1,9 +1,6 @@
 {
-  "rewrites" : [
-{ "source" : "/(.*)" , "destination" : "/index.html" } 
- 
-
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/backend/client/dist/index.html" }
   ]
-
-
 }
+
